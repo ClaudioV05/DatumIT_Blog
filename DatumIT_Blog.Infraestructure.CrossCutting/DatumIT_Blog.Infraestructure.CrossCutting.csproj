@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <InvariantGlobalization>true</InvariantGlobalization>
+    <Authors>Claudiomildo Ventura</Authors>
+    <Version>1.0.0</Version>
+    <Company>CVWork</Company>
+    <Copyright>2024 clv.net</Copyright>
+    <Description>DatumIT_Blog in ASP NET</Description>
+  </PropertyGroup>
+
+</Project>
