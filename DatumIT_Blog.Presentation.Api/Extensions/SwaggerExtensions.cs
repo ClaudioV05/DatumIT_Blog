@@ -10,6 +10,11 @@ public static class SwaggerExtensions
     /// <param name="services"></param>
     public static void ConfigureSwagger(this IServiceCollection services)
     {
-        services.AddSwaggerGen(c => c.SwaggerDoc("v1", new OpenApiInfo { Title = "DatumIT_Blog_SQLServer", Version = "v1" }));
+        services.AddSwaggerGen(c => c.SwaggerDoc("v1", new OpenApiInfo
+        { 
+            Title = "DatumIT_Blog_SQLServer", 
+            Version = "v1",
+            Description = "Simple CRUD"
+        }));
     }
 }

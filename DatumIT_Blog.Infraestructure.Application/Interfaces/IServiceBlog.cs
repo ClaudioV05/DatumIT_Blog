@@ -2,7 +2,7 @@
 
 namespace DatumIT_Blog.Application.Interfaces;
 
-public interface IServiceUsers
+public interface IServiceBlog
 {
     /// <summary>
     /// Create.
@@ -14,7 +14,7 @@ public interface IServiceUsers
     /// <exception cref=""></exception>
     /// <seealso href=""></seealso>
     /// <returns></returns>
-    Task Create(Users obj);
+    Task Create(Blog obj);
 
     /// <summary>
     /// Read.
@@ -26,7 +26,7 @@ public interface IServiceUsers
     /// <exception cref=""></exception>
     /// <seealso href=""></seealso>
     /// <returns></returns>
-    Task<IEnumerable<Users>> Read();
+    Task<IEnumerable<Blog>> Read();
 
     /// <summary>
     /// Update.
@@ -38,7 +38,7 @@ public interface IServiceUsers
     /// <exception cref=""></exception>
     /// <seealso href=""></seealso>
     /// <returns></returns>
-    Task Update(Users obj);
+    Task Update(Blog obj);
 
     /// <summary>
     /// Delete.

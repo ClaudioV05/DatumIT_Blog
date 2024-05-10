@@ -14,17 +14,17 @@ namespace DatumIT_Blog.Presentation.Api.Controllers;
 [ServiceFilter(typeof(FilterActionContextController), Order = 1)]
 public class DatumIT_BlogController : ControllerBase
 {
-    private readonly IServiceUsers _serviceUsers;
+    private readonly IServiceBlog _serviceBlog;
 
-    public DatumIT_BlogController(IServiceUsers serviceUsers)
+    public DatumIT_BlogController(IServiceBlog serviceBlog)
     {
-        _serviceUsers = serviceUsers;
+        _serviceBlog = serviceBlog;
     }
 
     /// <summary>
-    /// Create new Users.
+    /// Create new Blog.
     /// </summary>
-    /// <param name="users"></param>
+    /// <param name="Blog"></param>
     /// <returns></returns>
     [HttpPost]
     [Produces(MediaTypeNames.Application.Json)]
@@ -33,11 +33,11 @@ public class DatumIT_BlogController : ControllerBase
     [ServiceFilter(typeof(FilterActionContextLog), Order = 2)]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<IActionResult> Create([BindRequired] Users users)
+    public async Task<IActionResult> Create([BindRequired] Blog Blog)
     {
         try
         {
-            await _serviceUsers.Create(users);
+            await _serviceBlog.Create(Blog);
             return Ok();
         }
         catch (HttpRequestException ex) when (ex.StatusCode.Equals(System.Net.HttpStatusCode.BadRequest))
@@ -51,7 +51,7 @@ public class DatumIT_BlogController : ControllerBase
     }
 
     /// <summary>
-    /// Get Users.
+    /// Get Blog.
     /// </summary>
     /// <returns></returns>
     [HttpGet]
@@ -65,7 +65,7 @@ public class DatumIT_BlogController : ControllerBase
     {
         try
         {
-            var result = await _serviceUsers.Read();
+            var result = await _serviceBlog.Read();
             return Ok(result);
         }
         catch (HttpRequestException ex) when (ex.StatusCode.Equals(System.Net.HttpStatusCode.BadRequest))
@@ -79,9 +79,9 @@ public class DatumIT_BlogController : ControllerBase
     }
 
     /// <summary>
-    /// Update new Users.
+    /// Update new Blog.
     /// </summary>
-    /// <param name="users"></param>
+    /// <param name="Blog"></param>
     /// <returns></returns>
     [HttpPut]
     [Produces(MediaTypeNames.Application.Json)]
@@ -90,11 +90,11 @@ public class DatumIT_BlogController : ControllerBase
     [ServiceFilter(typeof(FilterActionContextLog), Order = 2)]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<IActionResult> Update([BindRequired] Users users)
+    public async Task<IActionResult> Update([BindRequired] Blog Blog)
     {
         try
         {
-            await _serviceUsers.Update(users);
+            await _serviceBlog.Update(Blog);
             return Ok();
         }
         catch (HttpRequestException ex) when (ex.StatusCode.Equals(System.Net.HttpStatusCode.BadRequest))
@@ -108,7 +108,7 @@ public class DatumIT_BlogController : ControllerBase
     }
 
     /// <summary>
-    /// Delete new Users.
+    /// Delete new Blog.
     /// </summary>
     /// <param name="id"></param>
     /// <returns></returns>
@@ -123,7 +123,7 @@ public class DatumIT_BlogController : ControllerBase
     {
         try
         {
-            await _serviceUsers.Delete(id);
+            await _serviceBlog.Delete(id);
             return Ok();
         }
         catch (HttpRequestException ex) when (ex.StatusCode.Equals(System.Net.HttpStatusCode.BadRequest))

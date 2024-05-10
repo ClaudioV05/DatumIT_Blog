@@ -7,14 +7,14 @@ public class DocumentationHeaderAttribute : IOperationFilter
 {
     public void Apply(OpenApiOperation operation, OperationFilterContext context)
     {
-        if (operation.Parameters == null)
+        if (operation.Parameters is null)
         {
             operation.Parameters = new List<OpenApiParameter>();
         }
 
         operation.Parameters.Add(new OpenApiParameter
         {
-            Name = "scriptMetadata",
+            Name = string.Empty,
             In = ParameterLocation.Header,
             Required = false,
             Schema = new OpenApiSchema
@@ -25,7 +25,7 @@ public class DocumentationHeaderAttribute : IOperationFilter
 
         operation.Parameters.Add(new OpenApiParameter
         {
-            Name = "IdDevelopmentEnvironment",
+            Name = string.Empty,
             In = ParameterLocation.Header,
             Required = false,
             Schema = new OpenApiSchema

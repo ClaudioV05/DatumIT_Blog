@@ -22,9 +22,14 @@ public sealed class DatabaseContext : DbContext
     }
 
     /// <summary>
-    /// Users.
+    /// Blog.
     /// </summary>
-    public DbSet<Users>? Users { get; set; }
+    public DbSet<Blog> Blogs { get; set; }
+
+    /// <summary>
+    /// Post.
+    /// </summary>
+    public DbSet<Post> Posts { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
@@ -32,12 +37,59 @@ public sealed class DatabaseContext : DbContext
         optionsBuilder.UseSqlServer(connection, ef => ef.MigrationsAssembly(_configuration["PresentationProjectName"]));
     }
 
-    protected override void OnModelCreating(ModelBuilder builder)
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        builder.Entity<Users>().HasData(new List<Users>()
+        modelBuilder.Entity<Blog>(entity =>
         {
-            new () { Id = 1, Name = "Mary", },
-            new () { Id = 2, Name = "Jhon", }
+            entity.ToTable("Blogs");
+
+            entity.HasKey(e => e.BlogId);
+
+            entity.Property(e => e.BlogId)
+                  .HasColumnName("BlogId")
+                  .ValueGeneratedOnAdd()
+                  .UseIdentityColumn()
+                  .IsRequired();
+
+            entity.Property(e => e.Url)
+                  .HasColumnName("Url")
+                  .HasColumnType("nvarchar(255)")
+                  .IsRequired();
+
+            entity.HasMany(e => e.Posts)
+                  .WithOne(p => p.Blog)
+                  .HasForeignKey(fr => fr.BlogId)
+                  .HasConstraintName("FK_POST_BLOG")
+                  .OnDelete(DeleteBehavior.Cascade);
+        });
+
+        modelBuilder.Entity<Post>(entity =>
+        {
+            entity.ToTable("Posts");
+
+            entity.HasKey(e => e.PostId);
+
+            entity.Property(e => e.PostId)
+                  .HasColumnName("PostId")
+                  .ValueGeneratedOnAdd()
+                  .UseIdentityColumn()
+                  .IsRequired();
+
+            entity.Property(e => e.Title)
+                  .HasColumnName("Title")
+                  .HasColumnType("nvarchar(128)")
+                  .IsRequired();
+
+            entity.Property(e => e.Content)
+                  .HasColumnName("Content")
+                  .HasColumnType("nvarchar(1024)")
+                  .IsRequired();
+
+            entity.Property(e => e.CreatedDate)
+                  .HasColumnName("CreatedDate")
+                  .HasColumnType("datetime2")
+                  .HasDefaultValueSql("GETDATE()")
+                  .IsRequired();
         });
     }
 }

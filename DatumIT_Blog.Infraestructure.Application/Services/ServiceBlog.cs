@@ -4,22 +4,22 @@ using DatumIT_Blog.Infraestructure.Domain.Entities;
 
 namespace DatumIT_Blog.Application.Services;
 
-public class ServiceUsers : IServiceUsers
+public class ServiceBlog : IServiceBlog
 {
-    private readonly IRepositoryBase<Users> _repositoryBase;
+    private readonly IRepositoryBase<Blog> _repositoryBase;
 
-    public ServiceUsers(IRepositoryBase<Users> repositoryBase)
+    public ServiceBlog(IRepositoryBase<Blog> repositoryBase)
     {
         _repositoryBase = repositoryBase;
     }
 
-    public async Task Create(Users obj)
+    public async Task Create(Blog obj)
     {
         try
         {
             _repositoryBase.Create(new()
             {
-                Name = obj.Name
+                Url = obj.Url
             });
 
             await _repositoryBase.SaveAsync();
@@ -30,12 +30,12 @@ public class ServiceUsers : IServiceUsers
         }
     }
 
-    public async Task<IEnumerable<Users>> Read()
+    public async Task<IEnumerable<Blog>> Read()
     {
         try
         {
             var result = await _repositoryBase.Read();
-            return result.OrderBy(x => x.Id);
+            return result.OrderBy(x => x.BlogId);
         }
         catch (Exception)
         {
@@ -43,14 +43,14 @@ public class ServiceUsers : IServiceUsers
         }
     }
 
-    public async Task Update(Users obj)
+    public async Task Update(Blog obj)
     {
         try
         {
             _repositoryBase.Update(new()
             {
-                Id = obj.Id,
-                Name = obj.Name
+                BlogId = obj.BlogId,
+                Url = obj.Url
             });
 
             await _repositoryBase.SaveAsync();
@@ -67,7 +67,7 @@ public class ServiceUsers : IServiceUsers
         {
             _repositoryBase.Delete(new()
             {
-                Id = id
+                BlogId = id
             });
 
             await _repositoryBase.SaveAsync();
