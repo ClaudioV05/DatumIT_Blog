@@ -26,7 +26,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI(options =>
     {
-        options.SwaggerEndpoint("v1/swagger.json", "my-API v1");
+        options.SwaggerEndpoint("v1/swagger.json", "api v1");
         options.EnableTryItOutByDefault();
     });
 
@@ -53,6 +53,7 @@ else if (app.Environment.IsProduction())
     app.UseHsts();
 }
 
+app.UseWebSockets(new() { KeepAliveInterval = TimeSpan.FromMinutes(2) });
 app.UseCors(options => options.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
 app.UseHttpsRedirection();
 app.UseAuthorization();

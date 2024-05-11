@@ -12,7 +12,7 @@ public static class SwaggerExtensions
     {
         services.AddSwaggerGen(c => c.SwaggerDoc("v1", new OpenApiInfo
         { 
-            Title = "DatumIT_Blog_SQLServer", 
+            Title = "Datum IT", 
             Version = "v1",
             Description = "Simple CRUD"
         }));
