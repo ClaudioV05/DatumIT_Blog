@@ -1,6 +1,6 @@
 ﻿using DatumIT_Blog.Application.Interfaces;
-using DatumIT_Blog.Infraestructure.Data.Context;
 using DatumIT_Blog.Infraestructure.Domain.Entities;
+using DatumIT_Blog.Infraestructure.Domain.Interfaces;
 
 namespace DatumIT_Blog.Application.Services;
 

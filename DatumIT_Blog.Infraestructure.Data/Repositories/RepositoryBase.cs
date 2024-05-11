@@ -1,4 +1,5 @@
 ﻿using DatumIT_Blog.Infraestructure.Data.Context;
+using DatumIT_Blog.Infraestructure.Domain.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
 

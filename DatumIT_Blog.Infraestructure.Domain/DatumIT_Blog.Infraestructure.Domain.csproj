@@ -14,8 +14,4 @@
     <Description>DatumIT_Blog in ASP NET</Description>
   </PropertyGroup>
 
-  <ItemGroup>
-    <Folder Include="Interfaces\" />
-  </ItemGroup>
-
 </Project>

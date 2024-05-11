@@ -1,6 +1,6 @@
 ﻿using System.Linq.Expressions;
 
-namespace DatumIT_Blog.Infraestructure.Data.Context;
+namespace DatumIT_Blog.Infraestructure.Domain.Interfaces;
 
 public interface IRepositoryBase<T> where T : class
 {
