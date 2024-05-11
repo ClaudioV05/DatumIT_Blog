@@ -2,24 +2,27 @@
 using DatumIT_Blog.Infraestructure.Data.Context;
 using DatumIT_Blog.Infraestructure.Domain.Entities;
 
-namespace DatumIT_Blog.Application.Services;
+namespace DatumIT_Post.Application.Services;
 
-public class ServiceBlog : IServiceBlog
+public class ServicePost : IServicePost
 {
-    private readonly IRepositoryBase<Blog> _repositoryBase;
+    private readonly IRepositoryBase<Post> _repositoryBase;
 
-    public ServiceBlog(IRepositoryBase<Blog> repositoryBase)
+    public ServicePost(IRepositoryBase<Post> repositoryBase)
     {
         _repositoryBase = repositoryBase;
     }
 
-    public async Task Create(Blog obj)
+    public async Task Create(Post obj)
     {
         try
         {
             _ = _repositoryBase.Create(new()
             {
-                Url = obj.Url
+                BlogId = obj.BlogId,
+                Title = obj.Title,
+                Content = obj.Content,
+                CreatedDate = DateTime.Now,
             });
 
             await _repositoryBase.SaveAsync();
@@ -30,12 +33,12 @@ public class ServiceBlog : IServiceBlog
         }
     }
 
-    public async Task<IEnumerable<Blog>> Read()
+    public async Task<IEnumerable<Post>> Read()
     {
         try
         {
             var result = await _repositoryBase.Read();
-            return result.OrderBy(e => e.BlogId);
+            return result.OrderBy(e => e.PostId);
         }
         catch (Exception)
         {
@@ -43,13 +46,13 @@ public class ServiceBlog : IServiceBlog
         }
     }
 
-    public async Task Update(Blog obj)
+    public async Task Update(Post obj)
     {
         try
         {
-            var dbObj = await _repositoryBase.GetByIdAsync(e => e.BlogId == obj.BlogId);
+            var dbObj = await _repositoryBase.GetByIdAsync(e => e.PostId == obj.PostId);
 
-            if (dbObj is null) new Exception("Blog not found.");
+            if (dbObj is null) new Exception("Post not found.");
 
             _repositoryBase.Update(obj);
 
@@ -65,13 +68,13 @@ public class ServiceBlog : IServiceBlog
     {
         try
         {
-            var dbObj = await _repositoryBase.GetByIdAsync(e => e.BlogId == id);
+            var dbObj = await _repositoryBase.GetByIdAsync(e => e.PostId == id);
 
-            if (dbObj is null) new Exception("Blog not found.");
+            if (dbObj is null) new Exception("Post not found.");
 
             _repositoryBase.Delete(new()
             {
-                BlogId = id
+                PostId = id
             });
 
             await _repositoryBase.SaveAsync();
