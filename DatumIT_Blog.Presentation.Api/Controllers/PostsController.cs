@@ -8,7 +8,7 @@ using System.Net.Mime;
 namespace DatumIT_Post.Presentation.Api.Controllers;
 
 [ApiController]
-[Route("[Controller]")]
+[Route("[controller]")]
 [Consumes(MediaTypeNames.Application.Json)]
 [Produces(MediaTypeNames.Application.Json)]
 [ServiceFilter(typeof(FilterActionContextController), Order = 1)]
@@ -28,7 +28,7 @@ public class PostsController : ControllerBase
     /// <returns></returns>
     [HttpPost]
     [Produces(MediaTypeNames.Application.Json)]
-    [Route("/Create")]
+    [Route("/CreatePosts")]
     [ApiExplorerSettings(IgnoreApi = false)]
     [ServiceFilter(typeof(FilterActionContextLog), Order = 2)]
     [ProducesResponseType(StatusCodes.Status200OK)]
@@ -56,7 +56,7 @@ public class PostsController : ControllerBase
     /// <returns></returns>
     [HttpGet]
     [Produces(MediaTypeNames.Application.Json)]
-    [Route("/Read")]
+    [Route("/ReadPosts")]
     [ApiExplorerSettings(IgnoreApi = false)]
     [ServiceFilter(typeof(FilterActionContextLog), Order = 2)]
     [ProducesResponseType(StatusCodes.Status200OK)]
@@ -85,7 +85,7 @@ public class PostsController : ControllerBase
     /// <returns></returns>
     [HttpPut]
     [Produces(MediaTypeNames.Application.Json)]
-    [Route("/Update")]
+    [Route("/UpdatePosts")]
     [ApiExplorerSettings(IgnoreApi = false)]
     [ServiceFilter(typeof(FilterActionContextLog), Order = 2)]
     [ProducesResponseType(StatusCodes.Status200OK)]
@@ -114,7 +114,7 @@ public class PostsController : ControllerBase
     /// <returns></returns>
     [HttpDelete]
     [Produces(MediaTypeNames.Application.Json)]
-    [Route("/Delete")]
+    [Route("/DeletePosts")]
     [ApiExplorerSettings(IgnoreApi = false)]
     [ServiceFilter(typeof(FilterActionContextLog), Order = 2)]
     [ProducesResponseType(StatusCodes.Status200OK)]

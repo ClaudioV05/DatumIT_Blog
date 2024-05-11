@@ -24,7 +24,11 @@ if (app.Environment.IsDevelopment())
     app.UseDeveloperExceptionPage();
 
     app.UseSwagger();
-    app.UseSwaggerUI(options => options.EnableTryItOutByDefault());
+    app.UseSwaggerUI(options =>
+    {
+        options.SwaggerEndpoint("v1/swagger.json", "my-API v1");
+        options.EnableTryItOutByDefault();
+    });
 
     app.Use(async (context, next) =>
     {

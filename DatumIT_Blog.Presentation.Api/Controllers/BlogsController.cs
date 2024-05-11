@@ -8,15 +8,15 @@ using System.Net.Mime;
 namespace DatumIT_Blog.Presentation.Api.Controllers;
 
 [ApiController]
-[Route("[Controller]")]
+[Route("[controller]")]
 [Consumes(MediaTypeNames.Application.Json)]
 [Produces(MediaTypeNames.Application.Json)]
 [ServiceFilter(typeof(FilterActionContextController), Order = 1)]
-public class DatumIT_BlogController : ControllerBase
+public class BlogsController : ControllerBase
 {
     private readonly IServiceBlog _serviceBlog;
 
-    public DatumIT_BlogController(IServiceBlog serviceBlog)
+    public BlogsController(IServiceBlog serviceBlog)
     {
         _serviceBlog = serviceBlog;
     }
@@ -28,7 +28,7 @@ public class DatumIT_BlogController : ControllerBase
     /// <returns></returns>
     [HttpPost]
     [Produces(MediaTypeNames.Application.Json)]
-    [Route("/Create")]
+    [Route("/CreateBlogs")]
     [ApiExplorerSettings(IgnoreApi = false)]
     [ServiceFilter(typeof(FilterActionContextLog), Order = 2)]
     [ProducesResponseType(StatusCodes.Status200OK)]
@@ -56,7 +56,7 @@ public class DatumIT_BlogController : ControllerBase
     /// <returns></returns>
     [HttpGet]
     [Produces(MediaTypeNames.Application.Json)]
-    [Route("/Read")]
+    [Route("/ReadBlogs")]
     [ApiExplorerSettings(IgnoreApi = false)]
     [ServiceFilter(typeof(FilterActionContextLog), Order = 2)]
     [ProducesResponseType(StatusCodes.Status200OK)]
@@ -85,7 +85,7 @@ public class DatumIT_BlogController : ControllerBase
     /// <returns></returns>
     [HttpPut]
     [Produces(MediaTypeNames.Application.Json)]
-    [Route("/Update")]
+    [Route("/UpdateBlogs")]
     [ApiExplorerSettings(IgnoreApi = false)]
     [ServiceFilter(typeof(FilterActionContextLog), Order = 2)]
     [ProducesResponseType(StatusCodes.Status200OK)]
@@ -114,7 +114,7 @@ public class DatumIT_BlogController : ControllerBase
     /// <returns></returns>
     [HttpDelete]
     [Produces(MediaTypeNames.Application.Json)]
-    [Route("/Delete")]
+    [Route("/DeleteBlogs")]
     [ApiExplorerSettings(IgnoreApi = false)]
     [ServiceFilter(typeof(FilterActionContextLog), Order = 2)]
     [ProducesResponseType(StatusCodes.Status200OK)]
