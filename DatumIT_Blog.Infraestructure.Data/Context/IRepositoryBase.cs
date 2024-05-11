@@ -1,4 +1,6 @@
-﻿namespace DatumIT_Blog.Infraestructure.Data.Context;
+﻿using System.Linq.Expressions;
+
+namespace DatumIT_Blog.Infraestructure.Data.Context;
 
 public interface IRepositoryBase<T> where T : class
 {
@@ -6,13 +8,20 @@ public interface IRepositoryBase<T> where T : class
     /// Create.
     /// </summary>
     /// <param name="entity"></param>
-    void Create(T entity);
+    Task Create(T entity);
 
     /// <summary>
     /// Read.
     /// </summary>
     /// <returns></returns>
-    Task<List<T>> Read();
+    Task<IEnumerable<T>> Read();
+
+    /// <summary>
+    /// Get by id async.
+    /// </summary>
+    /// <param name="predicate"></param>
+    /// <returns></returns>
+    Task<T> GetByIdAsync(Expression<Func<T, bool>> predicate);
 
     /// <summary>
     /// Update.

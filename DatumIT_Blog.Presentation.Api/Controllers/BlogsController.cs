@@ -24,7 +24,7 @@ public class DatumIT_BlogController : ControllerBase
     /// <summary>
     /// Create new Blog.
     /// </summary>
-    /// <param name="Blog"></param>
+    /// <param name="blog"></param>
     /// <returns></returns>
     [HttpPost]
     [Produces(MediaTypeNames.Application.Json)]
@@ -33,11 +33,11 @@ public class DatumIT_BlogController : ControllerBase
     [ServiceFilter(typeof(FilterActionContextLog), Order = 2)]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<IActionResult> Create([BindRequired] Blog Blog)
+    public async Task<IActionResult> Create([BindRequired] Blog blog)
     {
         try
         {
-            await _serviceBlog.Create(Blog);
+            await _serviceBlog.Create(blog);
             return Ok();
         }
         catch (HttpRequestException ex) when (ex.StatusCode.Equals(System.Net.HttpStatusCode.BadRequest))
@@ -81,7 +81,7 @@ public class DatumIT_BlogController : ControllerBase
     /// <summary>
     /// Update new Blog.
     /// </summary>
-    /// <param name="Blog"></param>
+    /// <param name="blog"></param>
     /// <returns></returns>
     [HttpPut]
     [Produces(MediaTypeNames.Application.Json)]
@@ -90,11 +90,11 @@ public class DatumIT_BlogController : ControllerBase
     [ServiceFilter(typeof(FilterActionContextLog), Order = 2)]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<IActionResult> Update([BindRequired] Blog Blog)
+    public async Task<IActionResult> Update([BindRequired] Blog blog)
     {
         try
         {
-            await _serviceBlog.Update(Blog);
+            await _serviceBlog.Update(blog);
             return Ok();
         }
         catch (HttpRequestException ex) when (ex.StatusCode.Equals(System.Net.HttpStatusCode.BadRequest))

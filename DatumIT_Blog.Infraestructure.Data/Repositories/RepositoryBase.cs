@@ -1,5 +1,6 @@
 ﻿using DatumIT_Blog.Infraestructure.Data.Context;
 using Microsoft.EntityFrameworkCore;
+using System.Linq.Expressions;
 
 namespace DatumIT_Blog.Infraestructure.Data.Repositories;
 
@@ -9,24 +10,45 @@ namespace DatumIT_Blog.Infraestructure.Data.Repositories;
 /// <typeparam name="T"></typeparam>
 public class RepositoryBase<T> : IRepositoryBase<T> where T : class
 {
-    protected DatabaseContext _dbContext;
+    protected DatabaseContext _context;
 
     /// <summary>
     /// RepositoryBase.
     /// </summary>
-    /// <param name="dbContext"></param>
-    public RepositoryBase(DatabaseContext dbContext)
+    /// <param name="context"></param>
+    public RepositoryBase(DatabaseContext context)
     {
-        _dbContext = dbContext;
+        _context = context;
     }
 
-    public void Create(T entity) => _dbContext.Set<T>().Add(entity);
-    
-    public Task<List<T>> Read() => _dbContext.Set<T>().AsNoTracking().ToListAsync();
+    public async Task Create(T entity)
+    {
+        await _context.Set<T>().AddAsync(entity);
+    }
 
-    public void Update(T entity) => _dbContext.Set<T>().Update(entity);
+    public async Task<IEnumerable<T>> Read()
+    {
+        return await _context.Set<T>().AsNoTracking().ToListAsync();
+    }
 
-    public void Delete(T entity) => _dbContext.Set<T>().Remove(entity);
+    public async Task<T> GetByIdAsync(Expression<Func<T, bool>> predicate)
+    {
+        return await _context.Set<T>().AsNoTracking().SingleOrDefaultAsync(predicate);
+    }
 
-    public async Task SaveAsync() => await _dbContext.SaveChangesAsync();
+    public void Update(T entity)
+    {
+        _context.Entry(entity).State = EntityState.Modified;
+        _context.Set<T>().Update(entity);
+    }
+
+    public void Delete(T entity)
+    {
+        _context.Set<T>().Remove(entity);
+    }
+
+    public async Task SaveAsync()
+    {
+        await _context.SaveChangesAsync();
+    }
 }

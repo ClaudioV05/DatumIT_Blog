@@ -17,7 +17,7 @@ public class ServiceBlog : IServiceBlog
     {
         try
         {
-            _repositoryBase.Create(new()
+            _ = _repositoryBase.Create(new()
             {
                 Url = obj.Url
             });
@@ -47,11 +47,11 @@ public class ServiceBlog : IServiceBlog
     {
         try
         {
-            _repositoryBase.Update(new()
-            {
-                BlogId = obj.BlogId,
-                Url = obj.Url
-            });
+            var dbObj = await _repositoryBase.GetByIdAsync(e => e.BlogId == obj.BlogId);
+
+            if (dbObj is null) new Exception("Blog not found.");
+
+            _repositoryBase.Update(obj);
 
             await _repositoryBase.SaveAsync();
         }
@@ -65,6 +65,10 @@ public class ServiceBlog : IServiceBlog
     {
         try
         {
+            var dbObj = await _repositoryBase.GetByIdAsync(e => e.BlogId == id);
+
+            if (dbObj is null) new Exception("Blog not found.");
+
             _repositoryBase.Delete(new()
             {
                 BlogId = id
