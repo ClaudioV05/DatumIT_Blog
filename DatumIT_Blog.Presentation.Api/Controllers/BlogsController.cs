@@ -31,14 +31,15 @@ public class BlogsController : ControllerBase
     [Route("/CreateBlogs")]
     [ApiExplorerSettings(IgnoreApi = false)]
     [ServiceFilter(typeof(FilterActionContextLog), Order = 2)]
-    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public async Task<IActionResult> Create([BindRequired] Blog blog)
     {
         try
         {
             await _serviceBlog.Create(blog);
-            return Ok();
+            return Created();
         }
         catch (HttpRequestException ex) when (ex.StatusCode.Equals(System.Net.HttpStatusCode.BadRequest))
         {
@@ -60,7 +61,9 @@ public class BlogsController : ControllerBase
     [ApiExplorerSettings(IgnoreApi = false)]
     [ServiceFilter(typeof(FilterActionContextLog), Order = 2)]
     [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public async Task<IActionResult> Read()
     {
         try
@@ -71,6 +74,10 @@ public class BlogsController : ControllerBase
         catch (HttpRequestException ex) when (ex.StatusCode.Equals(System.Net.HttpStatusCode.BadRequest))
         {
             return this.StatusCode(StatusCodes.Status400BadRequest);
+        }
+        catch (HttpRequestException ex) when (ex.StatusCode.Equals(System.Net.HttpStatusCode.NotFound))
+        {
+            return this.StatusCode(StatusCodes.Status404NotFound);
         }
         catch (HttpRequestException ex) when (ex.StatusCode.Equals(System.Net.HttpStatusCode.InternalServerError))
         {
@@ -89,13 +96,19 @@ public class BlogsController : ControllerBase
     [ApiExplorerSettings(IgnoreApi = false)]
     [ServiceFilter(typeof(FilterActionContextLog), Order = 2)]
     [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public async Task<IActionResult> Update([BindRequired] Blog blog)
     {
         try
         {
             await _serviceBlog.Update(blog);
             return Ok();
+        }
+        catch (HttpRequestException ex) when (ex.StatusCode.Equals(System.Net.HttpStatusCode.NoContent))
+        {
+            return this.StatusCode(StatusCodes.Status204NoContent);
         }
         catch (HttpRequestException ex) when (ex.StatusCode.Equals(System.Net.HttpStatusCode.BadRequest))
         {
@@ -118,7 +131,9 @@ public class BlogsController : ControllerBase
     [ApiExplorerSettings(IgnoreApi = false)]
     [ServiceFilter(typeof(FilterActionContextLog), Order = 2)]
     [ProducesResponseType(StatusCodes.Status200OK)]
-    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public async Task<IActionResult> Delete([BindRequired] int id)
     {
         try
@@ -126,9 +141,13 @@ public class BlogsController : ControllerBase
             await _serviceBlog.Delete(id);
             return Ok();
         }
-        catch (HttpRequestException ex) when (ex.StatusCode.Equals(System.Net.HttpStatusCode.BadRequest))
+        catch (HttpRequestException ex) when (ex.StatusCode.Equals(System.Net.HttpStatusCode.NoContent))
         {
-            return this.StatusCode(StatusCodes.Status400BadRequest);
+            return this.StatusCode(StatusCodes.Status204NoContent);
+        }
+        catch (HttpRequestException ex) when (ex.StatusCode.Equals(System.Net.HttpStatusCode.NotFound))
+        {
+            return this.StatusCode(StatusCodes.Status404NotFound);
         }
         catch (HttpRequestException ex) when (ex.StatusCode.Equals(System.Net.HttpStatusCode.InternalServerError))
         {

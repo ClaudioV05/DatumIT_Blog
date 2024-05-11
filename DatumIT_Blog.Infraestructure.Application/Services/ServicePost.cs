@@ -21,14 +21,14 @@ public class ServicePost : IServicePost
         {
             _ = _repositoryBase.Create(new()
             {
-                BlogId = obj.BlogId,
+                BlogId = obj.Blog.BlogId,
                 Title = obj.Title,
                 Content = obj.Content,
                 CreatedDate = DateTime.Now,
             });
 
-            await _serviceWebSocket.SendNotificationPostCreated("Claudio");
             await _repositoryBase.SaveAsync();
+            await _serviceWebSocket.SendNotificationPostCreated("Claudio");
         }
         catch (Exception)
         {

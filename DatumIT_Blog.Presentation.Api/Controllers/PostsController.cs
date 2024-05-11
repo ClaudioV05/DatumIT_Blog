@@ -33,12 +33,13 @@ public class PostsController : ControllerBase
     [ServiceFilter(typeof(FilterActionContextLog), Order = 2)]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public async Task<IActionResult> Create([BindRequired] Post Post)
     {
         try
         {
             await _servicePost.Create(Post);
-            return Ok();
+            return Created();
         }
         catch (HttpRequestException ex) when (ex.StatusCode.Equals(System.Net.HttpStatusCode.BadRequest))
         {
@@ -60,7 +61,9 @@ public class PostsController : ControllerBase
     [ApiExplorerSettings(IgnoreApi = false)]
     [ServiceFilter(typeof(FilterActionContextLog), Order = 2)]
     [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public async Task<IActionResult> Read()
     {
         try
@@ -71,6 +74,10 @@ public class PostsController : ControllerBase
         catch (HttpRequestException ex) when (ex.StatusCode.Equals(System.Net.HttpStatusCode.BadRequest))
         {
             return this.StatusCode(StatusCodes.Status400BadRequest);
+        }
+        catch (HttpRequestException ex) when (ex.StatusCode.Equals(System.Net.HttpStatusCode.NotFound))
+        {
+            return this.StatusCode(StatusCodes.Status404NotFound);
         }
         catch (HttpRequestException ex) when (ex.StatusCode.Equals(System.Net.HttpStatusCode.InternalServerError))
         {
@@ -89,13 +96,19 @@ public class PostsController : ControllerBase
     [ApiExplorerSettings(IgnoreApi = false)]
     [ServiceFilter(typeof(FilterActionContextLog), Order = 2)]
     [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public async Task<IActionResult> Update([BindRequired] Post Post)
     {
         try
         {
             await _servicePost.Update(Post);
             return Ok();
+        }
+        catch (HttpRequestException ex) when (ex.StatusCode.Equals(System.Net.HttpStatusCode.NoContent))
+        {
+            return this.StatusCode(StatusCodes.Status204NoContent);
         }
         catch (HttpRequestException ex) when (ex.StatusCode.Equals(System.Net.HttpStatusCode.BadRequest))
         {
@@ -118,7 +131,9 @@ public class PostsController : ControllerBase
     [ApiExplorerSettings(IgnoreApi = false)]
     [ServiceFilter(typeof(FilterActionContextLog), Order = 2)]
     [ProducesResponseType(StatusCodes.Status200OK)]
-    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public async Task<IActionResult> Delete([BindRequired] int id)
     {
         try
@@ -126,9 +141,13 @@ public class PostsController : ControllerBase
             await _servicePost.Delete(id);
             return Ok();
         }
-        catch (HttpRequestException ex) when (ex.StatusCode.Equals(System.Net.HttpStatusCode.BadRequest))
+        catch (HttpRequestException ex) when (ex.StatusCode.Equals(System.Net.HttpStatusCode.NoContent))
         {
-            return this.StatusCode(StatusCodes.Status400BadRequest);
+            return this.StatusCode(StatusCodes.Status204NoContent);
+        }
+        catch (HttpRequestException ex) when (ex.StatusCode.Equals(System.Net.HttpStatusCode.NotFound))
+        {
+            return this.StatusCode(StatusCodes.Status404NotFound);
         }
         catch (HttpRequestException ex) when (ex.StatusCode.Equals(System.Net.HttpStatusCode.InternalServerError))
         {
