@@ -7,10 +7,12 @@ namespace DatumIT_Post.Application.Services;
 public class ServicePost : IServicePost
 {
     private readonly IRepositoryBase<Post> _repositoryBase;
+    private readonly IServiceWebSocket _serviceWebSocket;
 
-    public ServicePost(IRepositoryBase<Post> repositoryBase)
+    public ServicePost(IRepositoryBase<Post> repositoryBase, IServiceWebSocket serviceWebSocket)
     {
         _repositoryBase = repositoryBase;
+        _serviceWebSocket = serviceWebSocket;
     }
 
     public async Task Create(Post obj)
@@ -25,6 +27,7 @@ public class ServicePost : IServicePost
                 CreatedDate = DateTime.Now,
             });
 
+            await _serviceWebSocket.SendNotificationPostCreated("Claudio");
             await _repositoryBase.SaveAsync();
         }
         catch (Exception)

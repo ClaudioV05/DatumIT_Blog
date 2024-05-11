@@ -4,7 +4,6 @@ using DatumIT_Blog.Presentation.Api.Filters;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using System.Net.Mime;
-using System.Net.WebSockets;
 
 namespace DatumIT_Post.Presentation.Api.Controllers;
 
@@ -16,12 +15,10 @@ namespace DatumIT_Post.Presentation.Api.Controllers;
 public class PostsController : ControllerBase
 {
     private readonly IServicePost _servicePost;
-    private readonly IServiceWebSocket _serviceWebSocket;
 
-    public PostsController(IServicePost servicePost, IServiceWebSocket serviceWebSocket)
+    public PostsController(IServicePost servicePost)
     {
         _servicePost = servicePost;
-        _serviceWebSocket = serviceWebSocket;
     }
 
     /// <summary>
@@ -41,7 +38,6 @@ public class PostsController : ControllerBase
         try
         {
             await _servicePost.Create(Post);
-            await this.SendNotitifcation();
             return Ok();
         }
         catch (HttpRequestException ex) when (ex.StatusCode.Equals(System.Net.HttpStatusCode.BadRequest))
@@ -138,26 +134,5 @@ public class PostsController : ControllerBase
         {
             return this.StatusCode(StatusCodes.Status500InternalServerError);
         }
-    }
-
-
-    #region Config methods.
-
-    private async Task SendNotitifcation()
-    {
-        try
-        {
-            if (HttpContext.WebSockets.IsWebSocketRequest)
-            {
-                using var webSocket = await HttpContext.WebSockets.AcceptWebSocketAsync();
-                await webSocket.SendAsync(await _serviceWebSocket.GetMessageNotificationCreatePost("Claudio"), WebSocketMessageType.Text, true, CancellationToken.None);
-            }
-        }
-        catch (Exception)
-        {
-            throw new Exception();
-        }
-
-        #endregion Config methods.
     }
 }

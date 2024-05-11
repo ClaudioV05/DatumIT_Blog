@@ -1,20 +1,29 @@
 ﻿using DatumIT_Blog.Application.Interfaces;
-using System.Text;
+using System.Net.WebSockets;
 
 namespace DatumIT_Blog.Application.Services;
 
 public class ServiceWebSocket : IServiceWebSocket
 {
-    public ServiceWebSocket()
-    {
+    private readonly IServiceMessage _serviceMessage;
 
+    public ServiceWebSocket(IServiceMessage serviceMessage)
+    {
+        _serviceMessage = serviceMessage;
     }
 
-    public async Task<byte[]> GetMessageNotificationCreatePost(string user)
+    public async Task SendNotificationPostCreated(string userName)
     {
+        WebSocketContext? webSocketContext = null;
+
         try
         {
-            return Encoding.ASCII.GetBytes($"User: {user.ToUpperInvariant()} created the new Post at platform Datum IT Blog. {DateTime.Now}");
+            WebSocket? webSocket = webSocketContext?.WebSocket;
+
+            if (webSocket?.State is WebSocketState.Open)
+            {
+                await webSocket.SendAsync(await _serviceMessage.GetMessagePostCreated(userName), WebSocketMessageType.Binary, false, CancellationToken.None);
+            }
         }
         catch (Exception)
         {
