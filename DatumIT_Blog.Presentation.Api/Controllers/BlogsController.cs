@@ -5,7 +5,6 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using System.Net.Mime;
-using System.Security.Claims;
 
 namespace DatumIT_Blog.Presentation.Api.Controllers;
 
@@ -29,9 +28,10 @@ public class BlogsController : ControllerBase
     /// <param name="blog"></param>
     /// <returns></returns>
     [HttpPost]
-    [Produces(MediaTypeNames.Application.Json)]
     [Route("/CreateBlogs")]
+    [Authorize(Roles = "Admin")]
     [ApiExplorerSettings(IgnoreApi = false)]
+    [Produces(MediaTypeNames.Application.Json)]
     [ServiceFilter(typeof(FilterActionContextLog), Order = 2)]
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -58,10 +58,10 @@ public class BlogsController : ControllerBase
     /// </summary>
     /// <returns></returns>
     [HttpGet]
-    [Produces(MediaTypeNames.Application.Json)]
     [Route("/ReadBlogs")]
-    [Authorize(Roles = "Admin")]
+    [AllowAnonymous]
     [ApiExplorerSettings(IgnoreApi = false)]
+    [Produces(MediaTypeNames.Application.Json)]
     [ServiceFilter(typeof(FilterActionContextLog), Order = 2)]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -94,9 +94,10 @@ public class BlogsController : ControllerBase
     /// <param name="blog"></param>
     /// <returns></returns>
     [HttpPut]
-    [Produces(MediaTypeNames.Application.Json)]
     [Route("/UpdateBlogs")]
+    [Authorize(Roles = "Admin")]
     [ApiExplorerSettings(IgnoreApi = false)]
+    [Produces(MediaTypeNames.Application.Json)]
     [ServiceFilter(typeof(FilterActionContextLog), Order = 2)]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
@@ -129,9 +130,10 @@ public class BlogsController : ControllerBase
     /// <param name="id"></param>
     /// <returns></returns>
     [HttpDelete]
-    [Produces(MediaTypeNames.Application.Json)]
     [Route("/DeleteBlogs")]
+    [Authorize(Roles = "Admin")]
     [ApiExplorerSettings(IgnoreApi = false)]
+    [Produces(MediaTypeNames.Application.Json)]
     [ServiceFilter(typeof(FilterActionContextLog), Order = 2)]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status204NoContent)]

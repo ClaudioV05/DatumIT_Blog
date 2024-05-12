@@ -12,6 +12,8 @@ builder.Services.ConfigureSwagger();
 
 builder.Services.ConfigureDependencies();
 
+builder.Services.ConfigureDatabaseDependencies();
+
 builder.Services.ConfigureAuthentication(builder);
 
 builder.Services.ConfigureDependencies(nameof(DatumIT_Blog));

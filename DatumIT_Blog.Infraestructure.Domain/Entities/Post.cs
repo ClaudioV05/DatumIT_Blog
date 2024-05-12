@@ -4,7 +4,7 @@ using System.Text.Json.Serialization;
 namespace DatumIT_Blog.Infraestructure.Domain.Entities;
 
 /// <summary>
-/// Entity Posts.
+/// Entity Post.
 /// </summary>
 [ComplexType]
 public class Post

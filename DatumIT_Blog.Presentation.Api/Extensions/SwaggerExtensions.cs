@@ -10,11 +10,22 @@ public static class SwaggerExtensions
     /// <param name="services"></param>
     public static void ConfigureSwagger(this IServiceCollection services)
     {
-        services.AddSwaggerGen(c => c.SwaggerDoc("v1", new OpenApiInfo
-        { 
-            Title = "Datum IT", 
-            Version = "v1",
-            Description = "Simple CRUD"
-        }));
+        services.AddSwaggerGen(c =>
+        {
+            c.SwaggerDoc("v1", new()
+            {
+                Title = "Datum IT",
+                Version = "v1",
+                Description = "Simple CRUD"
+            });
+
+            c.AddSecurityDefinition("Bearer", new()
+            {
+                Description = "The authorization header will be automatically generated when you send the request.",
+                Name = "Authorization",
+                In = ParameterLocation.Header,
+                Type = SecuritySchemeType.ApiKey
+            });
+        });
     }
 }

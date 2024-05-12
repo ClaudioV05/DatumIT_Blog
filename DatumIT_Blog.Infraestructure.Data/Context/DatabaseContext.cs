@@ -1,4 +1,5 @@
 using DatumIT_Blog.Infraestructure.Domain.Entities;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 
@@ -7,7 +8,7 @@ namespace DatumIT_Blog.Infraestructure.Data.Context;
 /// <summary>
 /// Database Context.
 /// </summary>
-public sealed class DatabaseContext : DbContext
+public sealed class DatabaseContext : IdentityDbContext
 {
     private readonly IConfiguration _configuration;
 
@@ -91,5 +92,7 @@ public sealed class DatabaseContext : DbContext
                   .HasDefaultValueSql("GETDATE()")
                   .IsRequired();
         });
+
+        base.OnModelCreating(modelBuilder);
     }
 }

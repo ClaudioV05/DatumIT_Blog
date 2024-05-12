@@ -1,6 +1,7 @@
 using DatumIT_Blog.Application.Interfaces;
 using DatumIT_Blog.Infraestructure.Domain.Entities;
 using DatumIT_Blog.Presentation.Api.Filters;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using System.Net.Mime;
@@ -27,9 +28,10 @@ public class PostsController : ControllerBase
     /// <param name="Post"></param>
     /// <returns></returns>
     [HttpPost]
-    [Produces(MediaTypeNames.Application.Json)]
     [Route("/CreatePosts")]
+    [Authorize(Roles = "Admin")]
     [ApiExplorerSettings(IgnoreApi = false)]
+    [Produces(MediaTypeNames.Application.Json)]
     [ServiceFilter(typeof(FilterActionContextLog), Order = 2)]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -56,9 +58,10 @@ public class PostsController : ControllerBase
     /// </summary>
     /// <returns></returns>
     [HttpGet]
-    [Produces(MediaTypeNames.Application.Json)]
     [Route("/ReadPosts")]
+    [AllowAnonymous]
     [ApiExplorerSettings(IgnoreApi = false)]
+    [Produces(MediaTypeNames.Application.Json)]
     [ServiceFilter(typeof(FilterActionContextLog), Order = 2)]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -91,9 +94,10 @@ public class PostsController : ControllerBase
     /// <param name="Post"></param>
     /// <returns></returns>
     [HttpPut]
-    [Produces(MediaTypeNames.Application.Json)]
     [Route("/UpdatePosts")]
+    [Authorize(Roles = "Admin")]
     [ApiExplorerSettings(IgnoreApi = false)]
+    [Produces(MediaTypeNames.Application.Json)]
     [ServiceFilter(typeof(FilterActionContextLog), Order = 2)]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
@@ -126,9 +130,10 @@ public class PostsController : ControllerBase
     /// <param name="id"></param>
     /// <returns></returns>
     [HttpDelete]
-    [Produces(MediaTypeNames.Application.Json)]
     [Route("/DeletePosts")]
+    [Authorize(Roles = "Admin")]
     [ApiExplorerSettings(IgnoreApi = false)]
+    [Produces(MediaTypeNames.Application.Json)]
     [ServiceFilter(typeof(FilterActionContextLog), Order = 2)]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
