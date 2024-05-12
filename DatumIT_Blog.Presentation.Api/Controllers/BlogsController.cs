@@ -1,9 +1,11 @@
 using DatumIT_Blog.Application.Interfaces;
 using DatumIT_Blog.Infraestructure.Domain.Entities;
 using DatumIT_Blog.Presentation.Api.Filters;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using System.Net.Mime;
+using System.Security.Claims;
 
 namespace DatumIT_Blog.Presentation.Api.Controllers;
 
@@ -58,6 +60,7 @@ public class BlogsController : ControllerBase
     [HttpGet]
     [Produces(MediaTypeNames.Application.Json)]
     [Route("/ReadBlogs")]
+    [Authorize(Roles = "Admin")]
     [ApiExplorerSettings(IgnoreApi = false)]
     [ServiceFilter(typeof(FilterActionContextLog), Order = 2)]
     [ProducesResponseType(StatusCodes.Status200OK)]

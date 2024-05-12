@@ -12,6 +12,8 @@ builder.Services.ConfigureSwagger();
 
 builder.Services.ConfigureDependencies();
 
+builder.Services.ConfigureAuthentication(builder);
+
 builder.Services.ConfigureDependencies(nameof(DatumIT_Blog));
 
 var app = builder.Build();
@@ -54,8 +56,15 @@ else if (app.Environment.IsProduction())
 }
 
 app.UseWebSockets(new() { KeepAliveInterval = TimeSpan.FromMinutes(2) });
+
 app.UseCors(options => options.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
+
 app.UseHttpsRedirection();
+
+app.UseAuthentication();
+
 app.UseAuthorization();
+
 app.MapControllers();
+
 app.Run();
