@@ -1,4 +1,5 @@
 using DatumIT_Blog.Infraestructure.Domain.Entities;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -8,7 +9,7 @@ namespace DatumIT_Blog.Infraestructure.Data.Context;
 /// <summary>
 /// Database Context.
 /// </summary>
-public sealed class DatabaseContext : IdentityDbContext
+public sealed class DatabaseContext : IdentityDbContext<IdentityUser, IdentityRole, string>
 {
     private readonly IConfiguration _configuration;
 
@@ -35,7 +36,12 @@ public sealed class DatabaseContext : IdentityDbContext
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
         var connection = _configuration["ConnectionStrings:DatabaseConnection"]?.ToString();
-        optionsBuilder.UseSqlServer(connection, ef => ef.MigrationsAssembly(_configuration["PresentationProjectName"]));
+
+        optionsBuilder.UseSqlServer(connection, configure =>
+        {
+            configure.CommandTimeout((int)TimeSpan.FromMinutes(10).TotalSeconds);
+            configure.MigrationsAssembly(_configuration["PresentationProjectName"]);
+        });
     }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)

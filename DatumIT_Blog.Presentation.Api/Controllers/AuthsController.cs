@@ -49,17 +49,23 @@ public class AuthsController : ControllerBase
     {
         try
         {
-            /*bool result = await _serviceUser.RegisterUser(new()
+            bool result = await _serviceUser.RegisterUser(new()
             {
                 Email = userLogin.Email,
                 UserName = userLogin.Username,
                 Password = userLogin.Password
             });
 
-            if (result)*/
-            if (true)
+            if (result)
             {
-                var token = GenerateJSONWebToken(new() { Username = "naeem", Password = "naeem_admin", Role = "Admin" });
+                //var token = GenerateJSONWebToken(new() { Username = "naeem", Password = "naeem_admin", Role = "Admin" });
+                var token = GenerateJSONWebToken(new()
+                {
+                    Username = userLogin.Username,
+                    Password = userLogin.Password,
+                    Role = "Admin"
+                });
+
                 return Ok(token);
             }
 
@@ -76,19 +82,55 @@ public class AuthsController : ControllerBase
     }
 
     /// <summary>
-    /// User Login.
+    /// Login user.
+    /// </summary>
+    /// <param name="userLogin"></param>
+    /// <returns></returns>
+    [HttpPost]
+    [AllowAnonymous]
+    [Route("/LoginUser")]
+    [ApiExplorerSettings(IgnoreApi = false)]
+    [Produces(MediaTypeNames.Application.Json)]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    public async Task<IActionResult> LoginUser([BindRequired] UserLogin userLogin)
+    {
+        try
+        {
+            await _serviceUser.LoginUser(new()
+            {
+                Email = userLogin.Email,
+                UserName = userLogin.Username,
+                Password = userLogin.Password
+            });
+
+            return Ok();
+        }
+        catch (HttpRequestException ex) when (ex.StatusCode.Equals(System.Net.HttpStatusCode.BadRequest))
+        {
+            return this.StatusCode(StatusCodes.Status400BadRequest);
+        }
+        catch (HttpRequestException ex) when (ex.StatusCode.Equals(System.Net.HttpStatusCode.InternalServerError))
+        {
+            return this.StatusCode(StatusCodes.Status500InternalServerError);
+        }
+    }
+
+    /// <summary>
+    /// Validate User.
     /// </summary>
     /// <param name=""></param>
     /// <returns></returns>
     [HttpGet]
-    [Route("/ValidateUserAdmin")]
+    [Route("/ValidateUser")]
     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Admin")]
     [ApiExplorerSettings(IgnoreApi = false)]
     [Produces(MediaTypeNames.Application.Json)]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    public IActionResult ValidateUserAdmin()
+    public IActionResult ValidateUser()
     {
         try
         {

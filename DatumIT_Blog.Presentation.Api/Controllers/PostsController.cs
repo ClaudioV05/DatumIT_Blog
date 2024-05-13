@@ -28,7 +28,7 @@ public class PostsController : ControllerBase
     /// <param name="Post"></param>
     /// <returns></returns>
     [HttpPost]
-    [Route("/CreatePosts")]
+    [Route("/CreatePost")]
     [Authorize(Roles = "Admin")]
     [ApiExplorerSettings(IgnoreApi = false)]
     [Produces(MediaTypeNames.Application.Json)]
@@ -94,7 +94,7 @@ public class PostsController : ControllerBase
     /// <param name="Post"></param>
     /// <returns></returns>
     [HttpPut]
-    [Route("/UpdatePosts")]
+    [Route("/UpdatePost")]
     [Authorize(Roles = "Admin")]
     [ApiExplorerSettings(IgnoreApi = false)]
     [Produces(MediaTypeNames.Application.Json)]
@@ -130,7 +130,7 @@ public class PostsController : ControllerBase
     /// <param name="id"></param>
     /// <returns></returns>
     [HttpDelete]
-    [Route("/DeletePosts")]
+    [Route("/DeletePost")]
     [Authorize(Roles = "Admin")]
     [ApiExplorerSettings(IgnoreApi = false)]
     [Produces(MediaTypeNames.Application.Json)]

@@ -29,16 +29,16 @@ public class RepositoryUser : IRepositoryUser
             };
 
             var result = await _userManager.CreateAsync(newUser, user.Password);
-            
+
             if (result is not null)
             {
                 if (result.Succeeded)
                 {
-                    _signInManager.SignInAsync(newUser, isPersistent: false);
+                    await _signInManager.SignInAsync(newUser, isPersistent: false);
                 }
                 else if (result.Errors.Any())
                 {
-                    throw new Exception(result.Errors.FirstOrDefault().Description);
+                    throw new Exception(result.Errors?.FirstOrDefault()?.Description);
                 }
             }
 
@@ -54,7 +54,10 @@ public class RepositoryUser : IRepositoryUser
     {
         try
         {
-            var result = await _signInManager.PasswordSignInAsync(user.Email, user.Password, false, false);
+            var result = await _signInManager.PasswordSignInAsync(user.Email,
+                                                                  user.Password,
+                                                                  false,
+                                                                  lockoutOnFailure: false);
 
             if (!result.Succeeded)
             {

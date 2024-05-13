@@ -28,7 +28,7 @@ public class BlogsController : ControllerBase
     /// <param name="blog"></param>
     /// <returns></returns>
     [HttpPost]
-    [Route("/CreateBlogs")]
+    [Route("/CreateBlog")]
     [Authorize(Roles = "Admin")]
     [ApiExplorerSettings(IgnoreApi = false)]
     [Produces(MediaTypeNames.Application.Json)]
@@ -94,7 +94,7 @@ public class BlogsController : ControllerBase
     /// <param name="blog"></param>
     /// <returns></returns>
     [HttpPut]
-    [Route("/UpdateBlogs")]
+    [Route("/UpdateBlog")]
     [Authorize(Roles = "Admin")]
     [ApiExplorerSettings(IgnoreApi = false)]
     [Produces(MediaTypeNames.Application.Json)]
@@ -130,7 +130,7 @@ public class BlogsController : ControllerBase
     /// <param name="id"></param>
     /// <returns></returns>
     [HttpDelete]
-    [Route("/DeleteBlogs")]
+    [Route("/DeleteBlog")]
     [Authorize(Roles = "Admin")]
     [ApiExplorerSettings(IgnoreApi = false)]
     [Produces(MediaTypeNames.Application.Json)]
