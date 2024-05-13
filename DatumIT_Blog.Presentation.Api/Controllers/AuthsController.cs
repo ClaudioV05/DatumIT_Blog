@@ -49,27 +49,14 @@ public class AuthsController : ControllerBase
     {
         try
         {
-            bool result = await _serviceUser.RegisterUser(new()
+            await _serviceUser.RegisterUser(new()
             {
                 Email = userLogin.Email,
                 UserName = userLogin.Username,
                 Password = userLogin.Password
             });
 
-            if (result)
-            {
-                //var token = GenerateJSONWebToken(new() { Username = "naeem", Password = "naeem_admin", Role = "Admin" });
-                var token = GenerateJSONWebToken(new()
-                {
-                    Username = userLogin.Username,
-                    Password = userLogin.Password,
-                    Role = "Admin"
-                });
-
-                return Ok(token);
-            }
-
-            return NotFound("user not found");
+            return Ok();
         }
         catch (HttpRequestException ex) when (ex.StatusCode.Equals(System.Net.HttpStatusCode.BadRequest))
         {
@@ -98,14 +85,27 @@ public class AuthsController : ControllerBase
     {
         try
         {
-            await _serviceUser.LoginUser(new()
+            bool result = await _serviceUser.LoginUser(new()
             {
                 Email = userLogin.Email,
                 UserName = userLogin.Username,
                 Password = userLogin.Password
             });
 
-            return Ok();
+            if (result)
+            {
+                //var token = GenerateJSONWebToken(new() { Username = "naeem", Password = "naeem_admin", Role = "Admin" });
+                var token = GenerateJSONWebToken(new()
+                {
+                    Username = userLogin.Username,
+                    Password = userLogin.Password,
+                    Role = "Admin"
+                });
+
+                return Ok(token);
+            }
+
+            return NotFound("user not found");
         }
         catch (HttpRequestException ex) when (ex.StatusCode.Equals(System.Net.HttpStatusCode.BadRequest))
         {

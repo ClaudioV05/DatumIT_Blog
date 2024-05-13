@@ -1,6 +1,7 @@
 using DatumIT_Blog.Application.Interfaces;
 using DatumIT_Blog.Infraestructure.Domain.Entities;
 using DatumIT_Blog.Presentation.Api.Filters;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
@@ -29,7 +30,7 @@ public class PostsController : ControllerBase
     /// <returns></returns>
     [HttpPost]
     [Route("/CreatePost")]
-    [Authorize(Roles = "Admin")]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Admin")]
     [ApiExplorerSettings(IgnoreApi = false)]
     [Produces(MediaTypeNames.Application.Json)]
     [ServiceFilter(typeof(FilterActionContextLog), Order = 2)]
@@ -95,7 +96,7 @@ public class PostsController : ControllerBase
     /// <returns></returns>
     [HttpPut]
     [Route("/UpdatePost")]
-    [Authorize(Roles = "Admin")]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Admin")]
     [ApiExplorerSettings(IgnoreApi = false)]
     [Produces(MediaTypeNames.Application.Json)]
     [ServiceFilter(typeof(FilterActionContextLog), Order = 2)]
@@ -131,7 +132,7 @@ public class PostsController : ControllerBase
     /// <returns></returns>
     [HttpDelete]
     [Route("/DeletePost")]
-    [Authorize(Roles = "Admin")]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Admin")]
     [ApiExplorerSettings(IgnoreApi = false)]
     [Produces(MediaTypeNames.Application.Json)]
     [ServiceFilter(typeof(FilterActionContextLog), Order = 2)]

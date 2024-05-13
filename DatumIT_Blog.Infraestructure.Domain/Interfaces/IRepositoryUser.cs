@@ -23,6 +23,6 @@ public interface IRepositoryUser
     /// <remarks></remarks>
     /// <exception cref=""></exception>
     /// <seealso href=""></seealso>
-    /// <returns></returns>
-    Task LoginUser(User user);
+    /// <returns>The method will return true, otherwise will return false.</returns>
+    Task<bool> LoginUser(User user);
 }

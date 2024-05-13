@@ -25,11 +25,11 @@ public class ServiceUser : IServiceUser
         }
     }
 
-    public async Task LoginUser(User user)
+    public async Task<bool> LoginUser(User user)
     {
         try
         {
-            await _repositoryUsers.LoginUser(user);
+            return await _repositoryUsers.LoginUser(user);
         }
         catch (Exception ex)
         {

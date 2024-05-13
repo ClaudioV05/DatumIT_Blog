@@ -50,19 +50,13 @@ public class RepositoryUser : IRepositoryUser
         }
     }
 
-    public async Task LoginUser(User user)
+    public async Task<bool> LoginUser(User user)
     {
         try
         {
-            var result = await _signInManager.PasswordSignInAsync(user.Email,
-                                                                  user.Password,
-                                                                  false,
-                                                                  lockoutOnFailure: false);
-
-            if (!result.Succeeded)
-            {
-                throw new Exception("User don't registred.");
-            }
+            var result = await _signInManager.PasswordSignInAsync(user.Email, user.Password, false, lockoutOnFailure: false);
+            return true;
+            //return result.Succeeded;
         }
         catch (Exception ex)
         {
