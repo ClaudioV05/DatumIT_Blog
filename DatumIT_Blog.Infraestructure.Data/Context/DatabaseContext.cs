@@ -1,5 +1,4 @@
 using DatumIT_Blog.Infraestructure.Domain.Entities;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -9,7 +8,7 @@ namespace DatumIT_Blog.Infraestructure.Data.Context;
 /// <summary>
 /// Database Context.
 /// </summary>
-public sealed class DatabaseContext : IdentityDbContext<IdentityUser, IdentityRole, string>
+public sealed class DatabaseContext : IdentityDbContext
 {
     private readonly IConfiguration _configuration;
 
@@ -26,12 +25,12 @@ public sealed class DatabaseContext : IdentityDbContext<IdentityUser, IdentityRo
     /// <summary>
     /// Blog.
     /// </summary>
-    public DbSet<Blog> Blogs { get; set; }
+    public DbSet<Blog>? Blogs { get; set; }
 
     /// <summary>
     /// Post.
     /// </summary>
-    public DbSet<Post> Posts { get; set; }
+    public DbSet<Post>? Posts { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {

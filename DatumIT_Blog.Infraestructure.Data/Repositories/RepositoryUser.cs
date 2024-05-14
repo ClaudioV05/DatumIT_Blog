@@ -54,9 +54,10 @@ public class RepositoryUser : IRepositoryUser
     {
         try
         {
-            var result = await _signInManager.PasswordSignInAsync(user.Email, user.Password, false, lockoutOnFailure: false);
-            return true;
-            //return result.Succeeded;
+            var identityUser = await _userManager.FindByEmailAsync(user?.Email);
+            var result = await _signInManager.PasswordSignInAsync(identityUser?.UserName, user.Password, false, false);
+
+            return result.Succeeded;
         }
         catch (Exception ex)
         {
