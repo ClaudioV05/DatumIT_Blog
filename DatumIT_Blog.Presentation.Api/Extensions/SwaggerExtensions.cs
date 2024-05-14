@@ -16,7 +16,7 @@ public static class SwaggerExtensions
             {
                 Version = "v1",
                 Title = "Datum IT",
-                Description = "Simple CRUD"
+                Description = "Action of CRUD test to Datum IT"
             });
 
             config.AddSecurityDefinition("Bearer", new()
