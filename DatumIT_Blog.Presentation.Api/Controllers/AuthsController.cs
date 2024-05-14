@@ -3,11 +3,7 @@ using DatumIT_Blog.Presentation.Api.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
-using Microsoft.IdentityModel.Tokens;
-using System.IdentityModel.Tokens.Jwt;
 using System.Net.Mime;
-using System.Security.Claims;
-using System.Text;
 
 namespace DatumIT_Blog.Presentation.Api.Controllers;
 
@@ -87,13 +83,13 @@ public class AuthsController : ControllerBase
             bool result = await _serviceUser.LoginUser(new()
             {
                 Email = userLogin.Email,
-                UserName = userLogin.Username,
+                UserName = string.Empty,
                 Password = userLogin.Password
             });
 
             if (result)
             {
-                return Ok(_serviceJsonWebToken.GenerateTheJsonWebToken(userLogin.Username, "Admin"));
+                return Ok(_serviceJsonWebToken.GenerateTheJsonWebToken(userLogin.Username));
             }
 
             return NotFound("user not found");
