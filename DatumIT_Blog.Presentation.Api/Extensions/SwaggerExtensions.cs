@@ -1,4 +1,5 @@
-﻿using Microsoft.OpenApi.Models;
+﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.OpenApi.Models;
 
 namespace DatumIT_Blog.Presentation.Api.Extensions;
 
@@ -21,10 +22,12 @@ public static class SwaggerExtensions
 
             config.AddSecurityDefinition("Bearer", new()
             {
+                BearerFormat = "JWT",
                 Name = "Authorization",
                 In = ParameterLocation.Header,
                 Type = SecuritySchemeType.ApiKey,
-                Description = "The authorization header will be automatically generated when you send the request."
+                Scheme = JwtBearerDefaults.AuthenticationScheme,
+                Description = "JWT Authorization header using the Bearer scheme."
             });
         });
     }
