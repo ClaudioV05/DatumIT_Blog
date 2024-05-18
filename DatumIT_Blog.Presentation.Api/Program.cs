@@ -12,7 +12,7 @@ builder.Services.ConfigureSwagger();
 
 builder.Services.ConfigureDependencies();
 
-builder.Services.ConfigureDatabaseDependencies();
+builder.Services.ConfigureDatabaseDependencies(builder.Configuration);
 
 builder.Services.ConfigureAuthentication(builder);
 
@@ -59,7 +59,7 @@ else if (app.Environment.IsProduction())
 
 app.UseWebSockets(new() { KeepAliveInterval = TimeSpan.FromMinutes(2) });
 
-app.UseCors(options => options.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
+app.UseCors();
 
 app.UseHttpsRedirection();
 

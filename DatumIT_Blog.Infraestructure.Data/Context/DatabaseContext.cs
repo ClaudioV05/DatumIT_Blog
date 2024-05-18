@@ -1,7 +1,6 @@
 using DatumIT_Blog.Infraestructure.Domain.Entities;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 
 namespace DatumIT_Blog.Infraestructure.Data.Context;
 
@@ -10,17 +9,11 @@ namespace DatumIT_Blog.Infraestructure.Data.Context;
 /// </summary>
 public sealed class DatabaseContext : IdentityDbContext
 {
-    private readonly IConfiguration _configuration;
-
     /// <summary>
     /// Database Context.
     /// </summary>
     /// <param name="options"></param>
-    /// <param name="configuration"></param>
-    public DatabaseContext(DbContextOptions<DatabaseContext> options, IConfiguration configuration) : base(options)
-    {
-        _configuration = configuration;
-    }
+    public DatabaseContext(DbContextOptions<DatabaseContext> options) : base(options) { }
 
     /// <summary>
     /// Blog.
@@ -31,17 +24,6 @@ public sealed class DatabaseContext : IdentityDbContext
     /// Post.
     /// </summary>
     public DbSet<Post>? Posts { get; set; }
-
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-    {
-        var connection = _configuration["ConnectionStrings:DatabaseConnection"]?.ToString();
-
-        optionsBuilder.UseSqlServer(connection, configure =>
-        {
-            configure.CommandTimeout((int)TimeSpan.FromMinutes(10).TotalSeconds);
-            configure.MigrationsAssembly(_configuration["PresentationProjectName"]);
-        });
-    }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

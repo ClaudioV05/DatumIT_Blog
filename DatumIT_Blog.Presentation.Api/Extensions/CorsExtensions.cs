@@ -5,7 +5,7 @@ namespace DatumIT_Blog.Presentation.Api.Extensions;
 public static class CorsExtensions
 {
     /// <summary>
-    /// Configure cors.
+    /// Configure Cross-Origin Resource Sharing (CORS).
     /// </summary>
     /// <param name="services"></param>
     public static void ConfigureCors(this IServiceCollection services)
@@ -15,6 +15,9 @@ public static class CorsExtensions
         corsBuilder.AllowAnyMethod();
         corsBuilder.AllowAnyOrigin();
 
-        services.AddCors(options => { options.AddDefaultPolicy(corsBuilder.Build()); });
+        services.AddCors(options =>
+        {
+            options.AddDefaultPolicy(corsBuilder.Build());
+        });
     }
 }
