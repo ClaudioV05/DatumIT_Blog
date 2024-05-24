@@ -7,6 +7,7 @@ namespace DatumIT_Blog.Infraestructure.Data.Context;
 /// <summary>
 /// Database Context.
 /// </summary>
+/// <remarks>This class cannot be inherited.</remarks>
 public sealed class DatabaseContext : IdentityDbContext
 {
     /// <summary>
