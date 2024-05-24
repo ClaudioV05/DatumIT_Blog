@@ -2,6 +2,10 @@
 
 namespace DatumIT_Blog.Application.Interfaces;
 
+/// <summary>
+/// IServiceBlog
+/// </summary>
+/// <remarks>This class cannot be inherited.</remarks>
 public interface IServiceBlog
 {
     /// <summary>

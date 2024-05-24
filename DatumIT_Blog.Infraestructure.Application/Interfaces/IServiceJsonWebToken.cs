@@ -1,5 +1,9 @@
 ﻿namespace DatumIT_Blog.Application.Interfaces;
 
+/// <summary>
+/// IServiceJsonWebToken
+/// </summary>
+/// <remarks>This class cannot be inherited.</remarks>
 public interface IServiceJsonWebToken
 {
     /// <summary>
